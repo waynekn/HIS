@@ -3,8 +3,8 @@
 @theme {
   /* Background color */
   --color-light-gray: oklch(98.5% 0.002 247.839);
-  /* Base color for primary violet elements */
-  --color-violet-base: oklch(60.6% 0.25 292.717);
+  /* Base color for primary indigo elements */
+  --color-indigo-base: oklch(51.1% 0.262 276.966);
   /* Secondary color for hover effects */
-  --color-violet-secondary: oklch(54.1% 0.281 293.009);
+  --color-indigo-secondary: oklch(45.7% 0.24 277.023);
 }
