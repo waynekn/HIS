@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 
 import HealthProgramCreation from "../components/healthProgramCreation";
 
@@ -46,7 +47,9 @@ function HealthProgramPage() {
                 key={program.id}
                 className="p-3 bg-indigo-50 text-indigo-800 rounded-lg shadow-sm"
               >
-                {program.name}
+                <Link to={`/program/${program.id}/detail/`}>
+                  {program.name}
+                </Link>
               </li>
             ))}
           </ul>

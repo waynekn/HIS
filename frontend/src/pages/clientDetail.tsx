@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 
 import api from "../api";
 import handleGenericApiErrors from "../utils/errors";
@@ -62,7 +62,9 @@ function ClientDetailPage() {
                   key={program.id}
                   className="p-4 bg-indigo-50 rounded-lg text-indigo-800 shadow-sm"
                 >
-                  {program.name}
+                  <Link to={`../program/${program.id}/detail/`}>
+                    {program.name}
+                  </Link>
                 </li>
               ))}
             </ul>
