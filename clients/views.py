@@ -33,7 +33,9 @@ class ClientCreateView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             client = serializer.save()
+            retrieval_serializer = serializers.ClientRetrievalSerializer(
+                client)
 
-            return Response(status=status.HTTP_201_CREATED)
+            return Response(retrieval_serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
