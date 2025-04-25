@@ -4,6 +4,15 @@ from rest_framework.request import Request
 from . import models
 
 
+class ClientRetrievalSerializer(serializers.ModelSerializer):
+    """
+    Serializer class for retrieving a user's clients
+    """
+    class Meta:
+        model = models.Client
+        fields = ('name', 'id',)
+
+
 class ClientCreationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Client
