@@ -47,7 +47,7 @@ function ClientListPage() {
                 className="bg-indigo-50 hover:bg-indigo-100 transition-colors rounded-lg p-4 shadow-sm"
               >
                 <Link
-                  to={`../${client.id}/${client.name}`}
+                  to={`../client/${client.id}/detail/`}
                   className="text-indigo-700 font-medium hover:underline"
                 >
                   {client.name}
