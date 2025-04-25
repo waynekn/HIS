@@ -4,6 +4,7 @@ import HomePage from "./pages/home";
 import LogInForm from "./components/loginForm";
 import SignUpForm from "./components/signUpForm";
 import ProfilePage from "./pages/profilePage";
+import HealthProgramPage from "./pages/healthProgram";
 
 function Router() {
   return (
@@ -13,6 +14,7 @@ function Router() {
         <Route path="signup/" element={<SignUpForm />} />
       </Route>
       <Route path="user/:username/" element={<ProfilePage />} />
+      <Route path="programs/" element={<HealthProgramPage />} />
     </Routes>
   );
 }

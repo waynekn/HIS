@@ -24,3 +24,31 @@ class HealthProgramRetrieveView(generics.ListAPIView):
         user: User = self.request.user
         programs = models.HealthProgram.objects.filter(owner=user)
         return programs
+
+
+class HealthProgramCreateView(generics.CreateAPIView):
+    """
+    API view for creating a new health program.
+
+    This view allows authenticated users to create a new health program. 
+    The `HealthProgramCreateSerializer` is used to validate and save the input data. 
+    Additionally, the response includes serialized data of the newly created health program 
+    using the `HealthProgramRetrievalSerializer`.
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = serializers.HealthProgramCreateSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
+    def post(self, request: Request, *args, **kwargs) -> Response:
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            program = serializer.save()
+            retrieval_serializer = serializers.HealthProgramRetrievalSerializer(
+                program)
+            return Response(retrieval_serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
