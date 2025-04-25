@@ -103,6 +103,14 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+
 # required for `dj-rest-auth` user registration.
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
