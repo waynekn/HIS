@@ -1,7 +1,9 @@
+from django.db import transaction
 from rest_framework import serializers
 from rest_framework.request import Request
 
 from . import models
+from programs.models import HealthProgram, ProgramEnrollment
 
 
 class ClientRetrievalSerializer(serializers.ModelSerializer):
@@ -41,11 +43,26 @@ class ClientCreationSerializer(serializers.ModelSerializer):
 
         return super().validate(attrs)
 
+    @transaction.atomic
     def create(self, validated_data):
         name = validated_data.get('name')
         request: Request = self.context.get('request')
+        programs: list[int] = request.data.get('programs')
 
         client = models.Client.objects.create(
             name=name, doctor=request.user)
+
+        if programs and type(programs) == list and len(programs) > 0:
+            health_programs = HealthProgram.objects.filter(pk__in=programs)
+
+            enrollments = [
+                ProgramEnrollment(
+                    client=client, program=program, doctor=request.user
+                )
+                for program in health_programs
+            ]
+
+            # Bulk create the ProgramEnrollment objects
+            ProgramEnrollment.objects.bulk_create(enrollments)
 
         return client
