@@ -5,7 +5,19 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from . import serializers
+from . import models
 # Create your views here.
+
+
+class ClientRetrievalView(generics.ListAPIView):
+    """
+    Retrieves a user's clients
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = serializers.ClientRetrievalSerializer
+
+    def get_queryset(self):
+        return models.Client.objects.filter(doctor=self.request.user)
 
 
 class ClientCreateView(generics.CreateAPIView):
