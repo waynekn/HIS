@@ -11,7 +11,7 @@ function ProfilePage() {
       </h1>
       <ul>
         <li>
-          <Link to="#">My Clients</Link>
+          <Link to="../client/list/">My Clients</Link>
         </li>
         <li>
           <Link to="../programs/">My Programs</Link>
