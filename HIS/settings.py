@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     # local
     'users',
     'programs',
+    'clients',
 ]
 
 SITE_ID = 1
