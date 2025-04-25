@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -7,6 +8,8 @@ from rest_framework.response import Response
 
 from . import models
 from . import serializers
+from clients.models import Client
+from clients.serializers import ClientRetrievalSerializer
 
 
 class HealthProgramRetrieveView(generics.ListAPIView):
@@ -52,3 +55,28 @@ class HealthProgramCreateView(generics.CreateAPIView):
             return Response(retrieval_serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class HealthProgramDetail(generics.ListAPIView):
+    """
+    API view to retrieve a list of clients enrolled in a specific health program.
+
+    This view takes a program ID as a URL parameter and returns a JSON response
+    containing the program's name and a list of enrolled clients.
+    """
+
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        program_id = kwargs.get('id')
+
+        health_program = get_object_or_404(models.HealthProgram, id=program_id)
+
+        clients = Client.objects.filter(
+            programenrollment__program=health_program)
+
+        # Serialize client data
+        serialized_clients = ClientRetrievalSerializer(clients, many=True)
+
+        return Response({
+            'name': health_program.name,
+            'clients': serialized_clients.data,
+        }, status=status.HTTP_200_OK)
