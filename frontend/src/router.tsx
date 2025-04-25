@@ -5,6 +5,7 @@ import LogInForm from "./components/loginForm";
 import SignUpForm from "./components/signUpForm";
 import ProfilePage from "./pages/profilePage";
 import HealthProgramPage from "./pages/healthProgram";
+import ClientCreationPage from "./pages/clientCreation";
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
       </Route>
       <Route path="user/:username/" element={<ProfilePage />} />
       <Route path="programs/" element={<HealthProgramPage />} />
+      <Route path="client/create/" element={<ClientCreationPage />} />
     </Routes>
   );
 }
