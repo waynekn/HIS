@@ -1,3 +1,7 @@
+## Overview
+
+CEMA Health Information System (HIS). Basic Health Information System project developed as part of the application process for the CEMA Software Engineer Internship.
+
 ## Powerpoint presentation
 
 Copy the link below to access the PowerPoint presentation on the approach, design and the solution.
@@ -13,10 +17,6 @@ Copy the link below to access the prototype demonstration.
 ```
 https://drive.google.com/file/d/1NiwPoFSte29AQSS1TSVqsy4owUYtdLVS/view
 ```
-
-## Overview
-
-CEMA Health Information System (HIS) is a solution designed to enhance healthcare providers' ability to manage patient information, streamline processes, and ensure high-quality care delivery.
 
 ## Features
 
