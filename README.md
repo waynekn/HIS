@@ -1,4 +1,18 @@
-CEMA Health Information System
+## Powerpoint presentation
+
+Copy the link below to access the PowerPoint presentation on the approach, design and the solution.
+
+```
+https://docs.google.com/presentation/d/1Ti8vA2208_cD5VK29-mjDkpKrR26bdOn/edit#slide=id.p10
+```
+
+## Prototype Demonstration
+
+Copy the link below to access the prototype demonstration.
+
+```
+https://drive.google.com/file/d/1NiwPoFSte29AQSS1TSVqsy4owUYtdLVS/view
+```
 
 ## Overview
 
