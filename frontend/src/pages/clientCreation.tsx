@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 import { Client } from "../types/clients";
 
@@ -11,6 +12,7 @@ function ClientCreationPage() {
   const [programs, setPrograms] = useState<healthProgram[]>([]);
   const [enrollments, setEnrollments] = useState<number[]>([]);
   const [errMsg, setErrMsg] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchPrograms() {
@@ -30,8 +32,7 @@ function ClientCreationPage() {
         name: clientName,
         programs: enrollments,
       });
-      console.log(res.data);
-      // TODO: redirect to client detail page
+      await navigate(`../client/${res.data.id}/detail/`);
     } catch (error) {
       setErrMsg(handleGenericApiErrors(error));
     }
