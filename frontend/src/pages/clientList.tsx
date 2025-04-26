@@ -37,6 +37,17 @@ function ClientListPage() {
           Your clients
         </h1>
 
+        {/*Link to register a new client */}
+        <div className="mb-2">
+          <Link
+            to={`../client/create/`}
+            className="text-white bg-indigo-base hover:bg-indigo-secondary font-medium px-4 py-2 
+              rounded-xl shadow"
+          >
+            Register new client
+          </Link>
+        </div>
+
         <ClientSearch />
 
         {clients.length === 0 ? (
