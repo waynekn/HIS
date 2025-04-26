@@ -24,6 +24,13 @@ class ClientRetrievalView(generics.ListAPIView):
 
 
 class ClientCreateView(generics.CreateAPIView):
+    """
+    API view to create a new client associated with the authenticated user (doctor).
+
+    This view allows authenticated users (doctors) to register a new client. The view accepts 
+    client data in the request body and, if valid, creates the client. It returns a serialized response 
+    with the details of the newly created client.
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = serializers.ClientCreationSerializer
 
