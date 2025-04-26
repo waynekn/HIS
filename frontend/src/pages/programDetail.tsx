@@ -12,7 +12,7 @@ function ProgramDetail() {
   const { id } = useParams();
 
   useEffect(() => {
-    async function fetchDetail() {
+    async function fetchProgramDetail() {
       try {
         const res = await api.get<HealthProgramDetail>(`program/${id}/detail/`);
         setProgramDetail(res.data);
@@ -20,7 +20,7 @@ function ProgramDetail() {
         setErrMsg(handleGenericApiErrors(error));
       }
     }
-    void fetchDetail();
+    void fetchProgramDetail();
   }, [id]);
 
   if (errMsg) {
