@@ -4,11 +4,14 @@ import { useParams, Link } from "react-router";
 import api from "../api";
 import handleGenericApiErrors from "../utils/errors";
 import { ClientDetail } from "../types/clients";
+import { selectCurrentUser } from "../store/user/user.selector";
+import { useSelector } from "react-redux";
 
 function ClientDetailPage() {
   const [detail, setDetail] = useState<ClientDetail | null>(null);
   const [errMsg, setErrMsg] = useState("");
   const { id } = useParams();
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     async function fetchClientDetail() {
@@ -42,6 +45,9 @@ function ClientDetailPage() {
           <h1 className="text-xl font-bold text-indigo-700 mb-2">
             Doctor: {detail?.doctor}
           </h1>
+          {currentUser.username === detail?.doctor && (
+            <Link to={`../program/${id}/enrollment/`}>Add enrollment</Link>
+          )}
           <p className="text-gray-600">Client Details</p>
         </div>
 

@@ -54,3 +54,49 @@ class HealthProgramCreateSerializer(serializers.ModelSerializer):
             name=name, owner=request.user)
 
         return program
+
+
+class ProgramEnrollmentSerializer(serializers.Serializer):
+    """
+    Serializer class for enrolling client to health programs
+    """
+    programs = serializers.ListField(
+        child=serializers.IntegerField(), allow_empty=False
+    )
+
+    def validate_programs(self, value):
+        request = self.context.get('request')
+
+        # Ensure all program IDs exist and belong to the doctor
+        programs_qs = models.HealthProgram.objects.filter(
+            id__in=value, owner=request.user
+        )
+
+        if programs_qs.count() == 0:
+            raise serializers.ValidationError("No valid programs provided.")
+
+        return list(programs_qs)
+
+    def create(self, validated_data):
+        client = self.context.get('client')
+        request = self.context.get('request')
+        doctor = request.user
+        programs = validated_data['programs']
+
+        # Find already enrolled program IDs
+        enrolled_ids = set(
+            models.ProgramEnrollment.objects.filter(
+                client=client, program__in=programs
+            ).values_list('program_id', flat=True)
+        )
+
+        # Filter out programs the client is already enrolled in if any
+        new_programs = [p for p in programs if p.id not in enrolled_ids]
+
+        enrollments = [
+            models.ProgramEnrollment(
+                client=client, program=program, doctor=doctor)
+            for program in new_programs
+        ]
+
+        return models.ProgramEnrollment.objects.bulk_create(enrollments)

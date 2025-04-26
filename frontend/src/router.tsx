@@ -9,6 +9,7 @@ import ClientListPage from "./pages/clientList";
 import ClientDetailPage from "./pages/clientDetail";
 import ClientCreationPage from "./pages/clientCreation";
 import ProgramDetail from "./pages/programDetail";
+import ProgramEnrollment from "./pages/programEnrollment";
 
 function Router() {
   return (
@@ -23,6 +24,7 @@ function Router() {
       <Route path="client/list/" element={<ClientListPage />} />
       <Route path="client/:id/detail/" element={<ClientDetailPage />} />
       <Route path="program/:id/detail" element={<ProgramDetail />} />
+      <Route path="program/:id/enrollment/" element={<ProgramEnrollment />} />
     </Routes>
   );
 }

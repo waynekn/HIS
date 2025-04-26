@@ -8,4 +8,15 @@ urlpatterns = [
          name='create_health_program'),
     path('program/<int:id>/detail/',
          views.HealthProgramDetail.as_view(), name='program_detail'),
+    path(
+        'programs/<int:id>/non-enrollments/',
+        views.DoctorProgramsNotEnrolledView.as_view(),
+        name='client_non_enrolled_programs'
+    ),
+    path(
+        'programs/<int:id>/enroll/',
+        views.ProgramEnrollmentCreateView.as_view(),
+        name='enroll_client_in_programs'
+    ),
+
 ]

@@ -80,3 +80,74 @@ class HealthProgramDetail(generics.ListAPIView):
             'name': health_program.name,
             'clients': serialized_clients.data,
         }, status=status.HTTP_200_OK)
+
+
+class DoctorProgramsNotEnrolledView(generics.ListAPIView):
+    """
+    Returns a list of health programs created by the client's doctor
+    that the client has not enrolled in.
+
+    Only the doctor associated with the client is authorized
+    to access this data.
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        client_id = self.kwargs.get('id')
+
+        client = get_object_or_404(Client, id=client_id)
+
+        if request.user != client.doctor:
+            return Response({'detail': 'You dont have the necessary permissions to perform this action'},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        doctor_programs = models.HealthProgram.objects.filter(
+            owner=request.user)
+
+        # Get programs the client is already enrolled in
+        enrolled_programs = models.ProgramEnrollment.objects.filter(
+            client=client).values_list('program', flat=True)
+
+        # Filter out enrolled programs
+        non_enrolled_programs = doctor_programs.exclude(
+            id__in=enrolled_programs)
+
+        # Serialize the data
+        serialized_programs = serializers.HealthProgramRetrievalSerializer(
+            non_enrolled_programs, many=True)
+
+        return Response(
+            serialized_programs.data, status=status.HTTP_200_OK)
+
+
+class ProgramEnrollmentCreateView(generics.CreateAPIView):
+    """
+    Enrolls a client in one or more health programs specified by their IDs.
+
+    Only the doctor who enrolled the client is allowed to perform this action.
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = serializers.ProgramEnrollmentSerializer
+
+    def post(self, request: Request, *args, **kwargs) -> Response:
+        client_id = self.kwargs.get('id')
+        programs: list[int] = request.data.get('programs')
+
+        if not programs or type(programs) != list:
+            return Response({'data': 'Bad request.Provide a list of program ids to enroll the user to'})
+
+        client = get_object_or_404(Client, id=client_id)
+
+        if request.user != client.doctor:
+            return Response({'detail': 'You dont have the necessary permissions to perform this action'},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        serializer = self.get_serializer(data=request.data, context={
+                                         'request': request, 'client': client})
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
