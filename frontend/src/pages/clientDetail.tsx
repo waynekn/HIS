@@ -45,9 +45,20 @@ function ClientDetailPage() {
           <h1 className="text-xl font-bold text-indigo-700 mb-2">
             Doctor: {detail?.doctor}
           </h1>
+
+          {/*Link to enroll the client to new programs */}
           {currentUser.username === detail?.doctor && (
-            <Link to={`../program/${id}/enrollment/`}>Add enrollment</Link>
+            <div className="mb-2">
+              <Link
+                to={`../program/${id}/enrollment/`}
+                className="text-white bg-indigo-base hover:bg-indigo-secondary font-medium px-4 py-2 
+              rounded-xl shadow"
+              >
+                Add enrollment
+              </Link>
+            </div>
           )}
+
           <p className="text-gray-600">Client Details</p>
         </div>
 
