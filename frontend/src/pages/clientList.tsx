@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
+import ClientSearch from "../components/clientSearch";
+
 import { Client } from "../types/clients";
 import api from "../api";
 import handleGenericApiErrors from "../utils/errors";
@@ -34,6 +36,8 @@ function ClientListPage() {
         <h1 className="text-2xl font-bold text-indigo-700 mb-6 text-center">
           Your clients
         </h1>
+
+        <ClientSearch />
 
         {clients.length === 0 ? (
           <p className="text-gray-600 text-center">

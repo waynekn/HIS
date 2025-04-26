@@ -70,3 +70,22 @@ class ClientDetailView(generics.RetrieveAPIView):
             'doctor': client.doctor.username,
         }
         return Response(res, status=status.HTTP_200_OK)
+
+
+class ClientSearchView(generics.ListAPIView):
+    """
+    API view to retrieve a list of clients associated with the authenticated user (doctor).
+
+    This view allows for searching clients by their name. If the `name` query parameter is provided, 
+    the view will return all clients whose names contain the specified string (case-insensitive).
+    If no `name` query parameter is provided, the view will return an empty list.
+    """
+    serializer_class = serializers.ClientRetrievalSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        name = self.request.query_params.get('name')
+        if name:
+            return models.Client.objects.filter(doctor=self.request.user, name__icontains=name)
+
+        return []
