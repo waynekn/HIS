@@ -135,7 +135,8 @@ class ProgramEnrollmentCreateView(generics.CreateAPIView):
         programs: list[int] = request.data.get('programs')
 
         if not programs or type(programs) != list:
-            return Response({'data': 'Bad request.Provide a list of program ids to enroll the user to'})
+            return Response({'detail': 'Please provide a list of programs to enroll the user to'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         client = get_object_or_404(Client, id=client_id)
 
